@@ -88,3 +88,7 @@ Content-Range: bytes (unit first byte pos) - [last byte pos]/[entity length]即C
 
 ### 2.Range实践
 ![](https://s3.qiufengh.com/blog/1600705973008.jpg)
+
+
+参考文章
+- https://juejin.cn/post/6874991690747215880
