@@ -54,29 +54,51 @@ class MyPromise{
 
     then(onFullFilled, onRejcted){
         var thenPromise = MyPromise((resolve,reject)=>{
-            const resolvePromise = cb => {
-                try{
-                    const x = cb(this.PromiseResult)
-                    if(x===thenPromise) throw Error('不能返回自身')
+                const resolvePromise = cb => {
+                    try{
+                        const x = cb(this.PromiseResult)
+                        if(x===thenPromise) throw Error('不能返回自身')
+                    }
+                    if(x instanceof MyPromise){
+                        x.then(resove, reject)
+                    }else{
+                        resolve(x)
+                    }
+                } catch(err){
+                    reject(err)
                 }
-                if(x instanceof MyPromise){
-                    x.then(resove, reject)
-                }else{
-                    resolve(x)
+            
+                if(this.staus==='pending'){
+                    this.fullFilledList.push(onFullFilled)
+                    this.rejctedList.push(onRejcted)
+                    return 
                 }
-            } catch(err){
-                reject(err)
-            }
+                if(this.status==='success'){
+                    resolvePromise(onFullFilled)
+                    return
+                }
+                resolvePromise(onRejectd)
+            })
+        return MyPromise
+    }
+
+    static all(promiseArray: []){
+        let promiseResult = []
+        let count = 0
+        return new MyPromise((resolve, reject)=>{
+                const addData = (index,value)=>{
+                    result[index] = value
+                    if(count===promiseArray.length)resolve(promiseResult)
+                }
+                promiseArray.forEach((promise, index)=>{         
+                    if (promise instanceof MyPromise) {
+                            promise.then(res => {
+                                addData(index, res)
+                            }, err => reject(err))
+                        } else {
+                            addData(index, promise)
+                    }
+                })
         })
-        if(this.staus==='pending'){
-            this.fullFilledList.push(onFullFilled)
-            this.rejctedList.push(onRejcted)
-            return 
-        }
-        if(this.status==='success'){
-            resolvePromise(onFullFilled)
-            return
-        }
-        resolvePromise(onRejectd)
     }
 }
