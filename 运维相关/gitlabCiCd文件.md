@@ -136,4 +136,36 @@ after_script	no	重写一组在作业后执行的命令
 
 environment	no	定义此作业完成部署的环境名称
 
-coverage
+coverage  no  定义给定作业的代码覆盖率设置
+
+## artifacts
+
+artifacts用于指定成功后应附加到job的文件和目录的列表。只能使用项目工作间内的文件或目录路径。如果想要在不通的job之间传递artifacts，请查阅依赖关系。以下是一些例子：
+
+发送binaries和.config中的所有文件：
+```
+artifacts:
+  paths:
+  - binaries/
+  - .config
+```
+
+
+### includes
+
+Possible inputs: The include subkeys:
+
+- include:local
+- include:file
+- include:remote
+- include:template
+
+#### inclue:file
+To include files from another private project on the same GitLab instance, use include:file. You can use include:file in combination with include:project only.
+
+Example of include:file:
+```
+include:
+  - project: 'my-group/my-project'
+    file: '/templates/.gitlab-ci-template.yml'
+```
