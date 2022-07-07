@@ -76,6 +76,15 @@ docker restart 容器ID 重启容器 删除单个容器
 
 
 
+### 私有镜像仓库
+
+docker run -d -p 5000:5000 -v /opt/data/registry:/tmp/registry docker.io/registry
+
+
+给基础镜像打个标签(前提是mysql镜像存在)
+docker tag mysql 192.168.222.128:5000/mysql 
+将镜像提交到私有仓库 
+docker push 192.168.222.128:5000/mysql 
 
 
 
