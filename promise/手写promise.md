@@ -41,7 +41,7 @@ class MyPromise{
     resolve(val){
         if(this.status!=='pending')return
         this.status = 'success'
-        this.fullFillList.shift()(this.result)
+        this.fullFillList.shift()(val)
         this.result = val 
     }
 
