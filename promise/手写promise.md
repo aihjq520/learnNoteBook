@@ -83,7 +83,7 @@ class MyPromise{
     }
 
     all(PromiseArr: MyPromise[]){
-        return new MyPromise((resolve,reject)=>{    
+        return new MyPromise((resolve,reject)=>{       
             let count = 0
             let arr = []
             for(let i=0;i<PromiseArr.length;i++){
