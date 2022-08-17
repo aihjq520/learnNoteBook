@@ -1,6 +1,6 @@
 官网上的定义：
 
-loader 是一个转换器，用于对源代码进行转换。
+loader 是一个转换器，用于对源代码进行转换。 
 
 例如 babel-loader 可以将 ES6 代码转换为 ES5 代码；sass-loader 将 sass 代码转换为 css 代码。
 
