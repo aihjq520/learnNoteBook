@@ -49,3 +49,52 @@ module.exports = {
 }
 
 ```
+
+### html-webpack-plugun
+
+作用: 当使用 webpack打包时，创建一个 html 文件，并把 webpack 打包后的静态文件自动插入到这个 html 文件当中。
+
+#### 使用默认配置
+```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  entry: 'index.js',
+  output: {
+    path: __dirname + '/dist',
+    filename: 'index_bundle.js'
+  },
+  plugins: [
+    new HtmlWebpackPlugin()
+  ]
+}
+```
+
+#### 使用自定义模版生成 html 文件
+如果默认的 html 模版不能满足业务需求， 比如需提前写一些 css 'js' 资源的引用， 最简单的方式就是新建一个模版文件， 并使用 template 属性指定模版文件的路径，html-webpack-plugin 插件将会自动向这个模版文件中注入打包后的 js 'css' 文件资源。
+```javascript
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  entry: 'index.js',
+  output: {
+    path: __dirname + '/dist',
+    filename: 'index_bundle.js'
+  },
+  plugins: [
+  new HtmlWebpackPlugin({
+    title: 'My App', 
+    template: 'public/index.html',
+    minify:{
+                removeComments: true, //去除HTML注释
+                collapseWhitespace: true, //去掉空格
+                minifyJS: true, // 压缩html里的js（使用uglify-js进行的压缩）
+                minifyCSS: true, // 压缩html里的css（使用clean-css进行的压缩）
+            }
+  })
+]
+}
+```
+
+### mini-css-extract-plugin
+作用：该插件的主要是为了抽离 css 样式,防止将样式打包在 js 中文件过大和因为文件大网络请求超时的情况。
