@@ -96,3 +96,10 @@ css 背景图引入
 ```css
 background-image: url("./images/blue.png");
 ```
+
+### 处理ts
+在webpack中，编译ts文件有两种方式。
+
+- 使用ts-loader编译。
+
+- 使用babel-loader编译
