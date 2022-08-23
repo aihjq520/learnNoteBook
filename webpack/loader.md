@@ -102,4 +102,78 @@ background-image: url("./images/blue.png");
 
 - 使用ts-loader编译。
 
+```javascript
+
+modules:{
+    rules:[
+        {
+            test:/\.ts^/
+            use:[ts-loader],
+
+        }
+    ]
+}
+
+```
+
+配置ts.config.json
+ts.config.json文件是必须要创建的，用来配置ts-loader的参数。
+内容可以根据自己项目具体要求来进行配置。如果对ts的配置文件不熟悉的话可以看看笔者前面写的TypeScript学习之配置文件。
+这里我们简单配置下
+
+
 - 使用babel-loader编译
+
+从7.X开始，babel开始支持ts的编译，如果想让babel编译ts，需要指定babel的preset。(cra是用babel编译ts的)
+
+```javascript
+npm i babel-loader @babel/preset-env @babel/preset-typescript core-js@3 -D
+```
+
+先使用@babel/preset-typescript来识别ts，然后使用@babel/preset-env来编译js和按需引入polyfill
+
+```javascript
+
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "corejs": "3"
+      }
+    ],
+    "@babel/preset-typescript"
+  ]
+}
+
+```
+
+所以使用babel-loader来处理ts的好处就是能动态按需引入polyfill。这个在ts-loader是不支持的，如果需要引入polyfill，需要在入口文件全量引入polyfill。
+
+
+#### 生成类型申明文件
+
+使用babel-loader的时候并没有使用到tsc，也不会读取ts.config.json文件配置，所以使用babel-loader是不能生成类型申明文件。
+
+
+### 总结
+
+### polyfill
+ts-loader不支持polyfill的按需引入，如果需要polyfill需要在入口全量引入。
+babel-loader是可以按需引入polyfill。并且还可以配置@babel/plugin-transform-runtime插件来抽离公共辅助函数。
+### 类型申明文件
+ts-loader支持生成类型申明文件，只需要在ts.config.json中配置即可。而babel-loader不支持。
+
+### 错误检测
+ts-loader支持错误检测，如果语法有问题会编译不成功。babel-loader是不支持，需要单独利用tsc单独配置。
+因为 tsc 的类型检查是需要拿到整个工程的类型信息，需要做类型的引入、多个文件的 namespace、enum、interface 等的合并，而 babel 是单个文件编译的，不会解析其他文件的信息。所以做不到和 tsc 一样的类型检查。
+
+
+### 编译速度
+ts-loader编译速度慢，因为它有类型检查这一步。babel-loader编译速度快。
+
+### 构建体积
+babel-loader打包后的体积更小。因为它支持按需polyfill和@babel/plugin-transform-runtime插件的配置。
+其次babel-loader可以通过.browserslistrc或target精确配置需要适配的浏览器。而ts-loader只能配置target，其值有'ES3' (default), 'ES5', 'ES6'/'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'，相对没那么精确。所以对打包体积也会有影响。
+
