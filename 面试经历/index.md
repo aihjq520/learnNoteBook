@@ -43,5 +43,31 @@ Js 基础，一时忘记了every, some返回布尔值，以及splice传负数的
 - 优点缺点
 
 
+### 3.8月26 C公司
+
+1.笔试题
+- 垂直水平居中
+- 简述设计模式并说出应用场景，应用场景有点记不太清
+- Es6常用方法
+- 手写promise，then怎么写的忘记了
+
+2.面试
+
+- 父子组件传值方法
+- 实现三角形的做法
+  - https://zhuanlan.zhihu.com/p/482361933
+  - https://bennettfeely.com/clippy/
+  - width,height设都为0，调整 border 颜色 透明。
+  - backgroundColors, liner-gradient
+  - clip-path 制多边形（或圆形、椭圆形等）并将其定位在元素内。实际上，浏览器不会绘制 clip-path 之外的任何区域，因此我们看到的是 clip-path 的边界。兼容性会有问题
+- 了解过canvas吗
+- 工作上遇到的困难
+- 团队组成
+
+3.hr
+- 职业发展规划
+- 发生什么事情对你影响比较大？
+
+
 
 
