@@ -15,7 +15,7 @@ let p3 = new Promise((resolve, reject) => {
 })
 console.log('p3', p3)
 
-
+``` javascript
 class MyPromise{
     constructor(executor){
         this.initValue()
@@ -107,3 +107,4 @@ class MyPromise{
         })
     }
 }
+```
