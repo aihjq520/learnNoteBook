@@ -101,5 +101,68 @@ Js 基础，一时忘记了every, some返回布尔值，以及splice传负数的
   类的构造函数，不使用new是没法调用的，会报错。这是它跟普通构造函数的一个主要区别，后者不用new也可以执行
   
 - sessionstorage、localstorage 的区别？
+- new 做了什么？
+
+###  7. 9.1 G公司
+问的简历上问题的问题比较多，果然是大公司，在做项目的时候要多思考为什么用这个？优缺点？背后的原理
+- 在移动端 1px 的问题？
+
+https://segmentfault.com/a/1190000037790305
+
+
+方案                     优点    缺点
+
+使用0.5px实现	代码简单，使用css即可	IOS及Android老设备不支持
+
+使用border-image实现	兼容目前所有机型	修改颜色不方便
+
+通过 viewport + rem 实现	一套代码，所有页面	和0.5px一样，机型不兼容
+
+使用伪类 + transform实现	兼容所有机型	不支持圆角
+
+box-shadow模拟边框实现	兼容所有机型
+
+box-shadow不在盒子模型，需要注意预留位置
+- flutter 和 react-native的区别？
+- 图片懒加载原理
+- webpacK基本原理？
+- loader 和 plugin 的区别？
+- webapck中的compile 和 ？ 
+- redux 和 mobx的区别
+  - 编程思维方式的不同
+    
+    redux更多的是遵循函数式编程,编写纯函数代码。mobx更多从面向对象去考虑。
+
+  - 储存数据形式区别
+
+    Redux默认以JavaScript原生对象形式存储数据，而Mobx使用可观察对象：
+
+    Redux需要手动追踪所有状态对象的变更；
+    Mobx中可以监听可观察对象，当其变更时将自动触发监听；
+
+  - 操作对象方式不同
+    我们不能直接操作状态对象，而总是在原来状态对象基础上返回一个新的状态对象，这样就能很方便的返回应用上一状态
+    Redux状态对象通常是不可变的（Immutable），Mobx中可以直接使用新值更新状态对象。
+
+    优缺点：
+     - mobx模板代码少，规范容易不统一。也说明容易上手。
+  
+  - 注入方式不同
+
+    mobx不会强制像redux那样必须全局注入store，如2.2所示，在mobx中，我们可以针对每个特定的页面或者功能编写专有的store来使用。
+     
+
+
+- 两道代码题， 手写promise.All和 寻找target值升级版
+- 强缓存和协商缓存以及协商缓存的区别？
+    - cache-control: max-age , expires
+    - last-modified,If-Modified-Since, 
+    etag,If-None-Match
+- 为什么要升级使用recoil？
+- jsbridge web与原生app通信
+- new 做了什么？
+
+
+
 
 
