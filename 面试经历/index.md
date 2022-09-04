@@ -124,10 +124,17 @@ box-shadow模拟边框实现	兼容所有机型
 
 box-shadow不在盒子模型，需要注意预留位置
 - flutter 和 react-native的区别？
+  - 图层渲染方式不一样
+  - 开发语言不一样
+  - 开发插件方式不一样
+  - hook 类
+  - 开发界面的方式不一样，html, widget
+  - 编译产物不一样
+  
 - 图片懒加载原理
 - webpacK基本原理？
 - loader 和 plugin 的区别？
-- webapck中的compile 和 ？ 
+- webapck中的compiler 和 compilation ？ 
 - redux 和 mobx的区别
   - 编程思维方式的不同
     
@@ -163,6 +170,24 @@ box-shadow不在盒子模型，需要注意预留位置
 - new 做了什么？
 
 
-
+###  7. 9.2 H公司
+1.技术面
+- 对前端工程化什么理解？
+- webpack有哪些优化的点？
+- 怎么理解promise？
+- http 和 https的理解？
+- 虚拟dom和diff算法？
+- webpack怎么做热更新？怎么与浏览器通信？
+- vite为什么打包这么快？ 
+- 会怎么提升小组成员的能力？
+- 泛型的作用？
+- 输入url到看见页面中间过程发生了什么？
+- 怎么建立起一个http连接？长连接？
+- websocket了解吗
+- ajax和websocket的区别
+- post 有哪些数据内容格式 content-type?
+  - application/json  适用场景：数据结构较复杂，层级较深的情况。
+  - multipart/form-data 适用场景：文件上传。
+  - application/x-www-form-urlencoded  适用场景：数据量不大、数据层级不深的情况下强烈建议这种数据提交格式。
 
 
