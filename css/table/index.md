@@ -43,8 +43,7 @@ COL 指定基于列的表格默认属性
 ### thead 与 th
 - table的 border-collapse: collapse;会使边框合并。所以对th与td都设置border属性不会发生重叠
 
-- rowspan colspan、rowspan。这两
-
+- rowspan colspan、rowspan。这两个属性接受大于等于 2 的正整数。如果一个 td 的 colspan 是 2，它仍是一个格子，但是会占水平两个格子的位置，rowspan 类似，占垂直两个格子的位置。
 
 
 
