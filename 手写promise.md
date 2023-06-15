@@ -1,3 +1,4 @@
+```javascript
 let p1 = new Promise((resolve, reject) => {
     resolve('成功')
     reject('失败')
@@ -101,4 +102,15 @@ class MyPromise{
                 })
         })
     }
+    done() {
+        
+    }
 }
+```
+
+# 问题：
+
+1. 如何获取多个promiseh获取结果？ 其中有一个promise报错怎么处理？
+
+可以用promise.all，坏处是其中有一个报错的话那么其他成功的promise结果就不会返回，解决方案可以换成promise.alllSettled。
+另外也可以对promose数组里面的一promise.catch处理，使其报错不影响返回。
