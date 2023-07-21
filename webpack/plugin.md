@@ -98,3 +98,23 @@ module.exports = {
 
 ### mini-css-extract-plugin
 作用：该插件的主要是为了抽离 css 样式,防止将样式打包在 js 中文件过大和因为文件大网络请求超时的情况。
+
+
+### defineplugin
+作用：DefinePlugin 允许在 编译时 将你代码中的变量替换为其他值或表达式。这在需要根据开发模式与生产模式进行不同的操作时，非常有用。
+
+```javascript
+new webpack.DefinePlugin({
+  PRODUCTION: JSON.stringify(true),
+  VERSION: JSON.stringify('5fa3b9'),
+  BROWSER_SUPPORTS_HTML5: true,
+  TWO: '1+1',
+  'typeof window': JSON.stringify('object'),
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+});
+```
+
+在项目中具体用到的地方？ 没有dev和build不一样的地方， 但会用到注入变量。
+
+### DllPlugin
+此插件用于在单独的 webpack 配置中创建一个 dll-only-bundle。 此插件会生成一个名为 manifest.json 的文件，这个文件是用于让 DllReferencePlugin 能够映射到相应的依赖上。
