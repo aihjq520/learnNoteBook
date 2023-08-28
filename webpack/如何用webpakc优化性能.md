@@ -96,3 +96,20 @@ module.exports = {
 #### 代码懒加载
  webpack 将源码中的 import、require 引入的文件编译之后再根据动态加载语法配置（通常以页面路由为基本单位）将较大的代码拆分并构建出较小的 chunk 包，应用在运行时执行到相应业务逻辑时才去加载执行对应 chunk 代码。 webpack 懒加载主要发生在下图的 JS 拆分出不同的 Chunk 这一过程中。
 ![](./a8df5aa127224fce9d997438039fb18b_tplv-k3u1fbpfcp-zoom-in-crop-mark_3024_0_0_0.awebp)
+
+
+
+
+### 4.DllPlugin/DllReferencePlugin
+
+https://www.cnblogs.com/skychx/p/webpack-dllplugin.html (webpack4不再适用)
+
+### 5.HardSourceWebpackPlugin
+
+
+### 6.swc-loader (基于rust编写)
+
+受限于JS的语言本身效率的问题，近几年前端领域出现了不少工具被Rust重写，其中就包括编译JS/TS文件速度比Babel快不少的SWC，其所对标的工具就是Babel。SWC全称为Speed Web Compiler，其是基于Rust实现的工具，目前被很多前端知名项目（Next.js、Parcel和Deno）所使用。官方SWC的编译速度相对于Babel可提升近20倍。
+
+
+

@@ -118,3 +118,5 @@ new webpack.DefinePlugin({
 
 ### DllPlugin
 此插件用于在单独的 webpack 配置中创建一个 dll-only-bundle。 此插件会生成一个名为 manifest.json 的文件，这个文件是用于让 DllReferencePlugin 能够映射到相应的依赖上。
+
+https://www.cnblogs.com/skychx/p/webpack-dllplugin.html (webpack4不再适用)
