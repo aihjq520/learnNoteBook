@@ -115,3 +115,7 @@ RUN cd /app
 RUN echo "hello" > world.txt
 
 ```
+
+如果将这个 Dockerfile 进行构建镜像运行后，会发现找不到 /app/world.txt 文件，或者其内容不是 hello。原因其实很简单，在 Shell 中，连续两行是同一个进程执行环境，因此前一个命令修改的内存状态，会直接影响后一个命令；而在 Dockerfile 中，这两行 RUN 命令的执行环境根本不同，是两个完全不同的容器。这就是对 Dockerfile 构建分层存储的概念不了解所导致的错误。
+
+因此如果需要改变以后各层的工作目录的位置，那么应该使用 WORKDIR指令。

@@ -12,6 +12,6 @@ fn getStoreName(os: &str) -> Option<&str> {
 
 ```
 
-## unwrap
+## unwrap panic
 
-有点像catch
+有点像catch 和 throw Error
