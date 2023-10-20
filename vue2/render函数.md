@@ -30,6 +30,6 @@ vnode对象 由render function运行生成，下面先从 render 函数的创建
 如上，render函数有一个参数h，这个参数h是用来创建vnode虚拟节点的函数。h函数接收三个参数，h( tag，data| Object，children | String/Array )，分别对应 标签名，数据（class, style, attrs等），子级vnode。
 data，和 children 都是可选的，另外 children 可以是 Array 或 String 类型，内容只有文本可以用 String 类型。
 
-h函数的作用：
+h函数也即是(createElement)的作用：
    在javascript中写html， 渲染生成虚拟dom
 
