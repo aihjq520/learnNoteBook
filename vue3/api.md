@@ -26,3 +26,16 @@ function defineComponent(
 # setup
 
 在vue3中没有this对象, 所有的逻辑代码都写在setup方法里面, 若是要在HTML模板页面中使用变量或者方法, 需要在setup方法return出去。
+也可以这么写
+
+```JS
+<script setup>
+const a = ref('1')
+const handleChange = ()=>{
+  console.log(a.value)
+}
+</srcipt>
+```
+
+不用写return, template中就能写任何在script中定义好的变量和函数。
+
