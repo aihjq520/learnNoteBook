@@ -12,6 +12,45 @@ workers 和主线程间的数据传递通过这样的消息机制进行 —— �
 - 通信限制，主线程和worker限制只能通过postmessage通信
 - 不能使用alert,但可以使用xhr发出请求请求，也可以使用settimeout/setinterval等API
 
+具体代码, 需要特别注意的是worker需要使用work-loader来处理,但是webpack5已经内置无需额外引入。文件名需要以work.js结尾
+
+```javascript
+// a.js
+
+import Worker from '/.myWorker.worker.js'
+const worker = new Worker()
+worker.onMessage = function() {
+  
+}
+
+worker.postMessage = function() {
+
+}
+
+```
+
+
+```javascript
+// myWorker.worker.js
+self.addEventListner('message', (e)=>{
+
+})
+
+```
+
+还可以引入第三方模块
+
+
+```javascript
+// myWorker.worker.js
+import XLSX from 'xlsx'
+
+self.addEventListner('message', (e)=>{
+  console.log(XLSX)
+})
+
+```
+
 
 # serviceworker
 
