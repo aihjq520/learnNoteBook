@@ -15,6 +15,13 @@ let p3 = new Promise((resolve, reject) => {
 })
 console.log('p3', p3)
 
+
+### 特性
+
+1. 状态不可逆转，只能从pending 转移到其他状态
+2. 支持链式调用
+3. 提供resolve, reject，调用时执行相应的回调
+
 ``` javascript
 class MyPromise{
     constructor(executor){
@@ -52,7 +59,7 @@ class MyPromise{
         this.result = val
     }
 
-    then(onFullFilled, onRejcted){
+    then(onFullFilled: (val)=>void, onRejcted: (val)=>void){
         var thenPromise = MyPromise((resolve,reject)=>{
             const resolvePromise = cb => {
                 try{
@@ -71,11 +78,11 @@ class MyPromise{
         if(this.staus==='pending'){
             this.fullFilledList.push(onFullFilled)
             this.rejctedList.push(onRejcted)
-            return 
+            return thenPromise
         }
         if(this.status==='success'){
             resolvePromise(onFullFilled)
-            return
+            return thenPromise
         }
         resolvePromise(onRejectd)
 
@@ -108,3 +115,10 @@ class MyPromise{
     }
 }
 ```
+
+# 问题：
+
+1. 如何获取多个promiseh获取结果？ 其中有一个promise报错怎么处理？
+
+可以用promise.all，坏处是其中有一个报错的话那么其他成功的promise结果就不会返回，解决方案可以换成promise.alllSettled。
+另外也可以对promose数组里面的一promise.catch处理，使其报错不影响返回。
