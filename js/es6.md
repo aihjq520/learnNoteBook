@@ -100,3 +100,53 @@ arr.splice(2,1,2)
 - 如果deleteCount为0，则只进行插入操作。
 - 可以同时插入多个元素，只需要在splice()中传递多个参数。
 - splice()方法返回一个包含被删除元素的数组。
+
+### weakmap 与 map的区别
+
+
+```html
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const map = new Map();
+    const weakmap = new WeakMap();
+
+
+    let foo = { foo: 1 };
+    let bar = { bar: 2 };
+
+    map.set(foo, 1);
+    weakmap.set(bar, 2);
+
+    bar = null
+
+
+    console.log(map);
+    console.log(weakmap);
+  </script>
+</body>
+
+</html>
+
+```
+
+
+当该函数表达式执行完毕后，对于对象 foo 来说，它仍然作为 map的 key 被引用着，因此垃圾回收器（grabage collector）不会把它从内存中移除，我们仍然可以通过 map.keys 打印出对象 foo。然而对于对象 bar来说，由于WeakMap的 key是弱引用，它不影响垃圾回收器的工作，所以一旦表达式执行完毕，垃圾回收器就会把对象 bar从内存中移除，并且我们无法获取 WeakMap的 key值，也就无法通过 WeakMap取得对象 bar。
+
+
+简单地说，WeakMap对 key是弱引用，不影响垃圾回收器的工作。据这个特性可知，一旦key被垃圾回收器回收，那么对应的键和值就访问不到了。所以 WeakMap经常用于存储那些只有当 key所引用的对象存在时（没有被回收）才有价值的信息，例如上面的场景中，如果 target 对象没有任何引用了，说明用户侧不再需要它了，这时垃圾回收器会完成回收任务。但如果使用 Map来代替 WeakMap，那么即使用户侧的代码对 target没有任何引用，这个 target 也不会被回收，最终可能导致内存溢出。
+我们看下打印的结果，会有一个更加直观的感受，可以看到 WeakMap里面已经为空了。
+
+
+总之，WeakMap的专用场合就是，它的键所对应的对象，可能会在将来消失。WeakMap结构有助于防止内存泄漏。
+
+注意，WeakMap 弱引用的只是键名，而不是键值。键值依然是正常引用。

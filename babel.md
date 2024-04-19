@@ -71,6 +71,7 @@ babel的配置文件支持很多种格式
 ### 配置@babel/preset-env实现按需引入
 
 ### entry
+
 当传入entry时，需要我们在项目入口文件中手动引入一次core-js，它会根据我们配置的浏览器兼容性列表(browserList)然后全量引入不兼容的polyfill。
 如果是Babel7.4.0之前，我们需要在入门文件引入@babel/polyfill
 
@@ -88,6 +89,14 @@ console.log(result1);
 ```
 
 ### usage
+
+上边我们说到配置为entry时，perset-env会基于我们的浏览器兼容列表进行全量引入polyfill。所谓的全量引入比如说我们代码中仅仅使用了Array.from这个方法。但是polyfill并不仅仅会引入Array.from，同时也会引入Promise、Array.prototype.include等其他并未使用到的方法。这就会造成包中引入的体积太大了。
+此时就引入出了我们的useBuintIns:usage配置。
+
+我们配置useBuintIns:usage时，会根据配置的浏览器兼容，以及代码中 使用到的Api 进行引入polyfill按需添加。
+
+当使用usage时，我们不需要额外在项目入口中引入polyfill了，它会根据我们项目中使用到的进行按需引入。
+
 
 ```javascript
 
@@ -113,6 +122,7 @@ console.log(result1);
 
 简单来讲，@babel/runtime更像是一种按需加载的解决方案，但是babel-runtime会将引入方式由智能完全交由我们自己，我们需要什么自己引入什么。比如哪里需要使用到Promise，就需要手动在文件顶部添加import promise from 'babel-runtime/core-js/promise'。
 它的用法很简单，只要我们去安装npm install --save @babel/runtime后，在需要使用对应的polyfill的地方去单独引入就可以了。比如：
+
 ```javascript
 // 如果需要使用Promise 我们需要手动引入对应的运行时polyfill
 import Promise from 'babel-runtime/core-js/promise'
@@ -142,7 +152,7 @@ npm i @babel/plugin-transform-runtime -D
 ### 对比总结
 我们知道，@babel/polyfill、@babel/preset-env 和 @babel/runtime、@babel/plugin-transform-runtime 都是用来引入polyfill的。那到底该怎么选择呢？
 
-@babel/polyfill不用多说了，肯定不是首选，因为它全局引入，并且还会污染环境。
+@babel/polyfill不用多说了，肯定不是首选，因为它全局引入，并且还会**污染环境**。
 
 @babel/preset-env方案其实就是按需引入@babel/polyfill，所以它不会全局引入，但是它直接引入的polyfill会污染全局环境。
 
