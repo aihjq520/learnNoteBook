@@ -3,9 +3,261 @@ babel是一个源码转换工具，目标是把ECMAScript 2015+的js代码转换
 
 babel 的编译流程
 
-- parse：通过 parser 把源码转成抽象语法树（AST）
-- transform：遍历 AST，调用各种 transform 插件对 AST 进行增删改
+- parse：通过 parser 把js源码转成抽象语法树（AST）
+- type: 用于创建、操作和检查抽象语法树（AST）节点
+- transform：遍历 AST，提供各种钩子hook, 调用各种 transform 插件对 AST 进行增删改
 - generate：把转换后的 AST 打印成目标代码，并生成 sourcemap
+
+
+#### parse
+
+```js
+
+function add(a, b) {
+  console.log('add');
+  return a + b;
+}
+
+```
+
+转换成
+
+```json
+
+{
+  "type": "Program",
+  "start": 0,
+  "end": 59,
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "start": 0,
+      "end": 59,
+      "id": {
+        "type": "Identifier",
+        "start": 9,
+        "end": 12,
+        "name": "add"
+      },
+      "expression": false,
+      "generator": false,
+      "async": false,
+      "params": [
+        {
+          "type": "Identifier",
+          "start": 13,
+          "end": 14,
+          "name": "a"
+        },
+        {
+          "type": "Identifier",
+          "start": 15,
+          "end": 16,
+          "name": "b"
+        }
+      ],
+      "body": {
+        "type": "BlockStatement",
+        "start": 18,
+        "end": 59,
+        "body": [
+          {
+            "type": "ExpressionStatement",
+            "start": 22,
+            "end": 41,
+            "expression": {
+              "type": "CallExpression",
+              "start": 22,
+              "end": 40,
+              "callee": {
+                "type": "MemberExpression",
+                "start": 22,
+                "end": 33,
+                "object": {
+                  "type": "Identifier",
+                  "start": 22,
+                  "end": 29,
+                  "name": "console"
+                },
+                "property": {
+                  "type": "Identifier",
+                  "start": 30,
+                  "end": 33,
+                  "name": "log"
+                },
+                "computed": false,
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "type": "Literal",
+                  "start": 34,
+                  "end": 39,
+                  "value": "add",
+                  "raw": "\"add\""
+                }
+              ],
+              "optional": false
+            }
+          },
+          {
+            "type": "ReturnStatement",
+            "start": 44,
+            "end": 57,
+            "argument": {
+              "type": "BinaryExpression",
+              "start": 51,
+              "end": 56,
+              "left": {
+                "type": "Identifier",
+                "start": 51,
+                "end": 52,
+                "name": "a"
+              },
+              "operator": "+",
+              "right": {
+                "type": "Identifier",
+                "start": 55,
+                "end": 56,
+                "name": "b"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "module"
+}
+
+```
+
+
+这里边有很多的属性：
+
+- type：AST 节点的类型，后续在 @babel/types 部分会说明节点的判断与生成；
+- "start" 和 "end"：是用于表示源代码中节点位置的属性。这些属性记录了节点在源代码中的起始位置（开始位置）和结束位置（结束位置），以字符索引的形式表示；
+  - 这里的位置，会计算换行与空格，都被作为一个字符计算了位置；
+- "id" 通常表示标识符（Identifier），它代表了代码中的变量名、函数名或其他标识符名称。标识符节点包含了标识符的名称以及有关该标识符的其他信息；
+- "argument" 是一个常见的属性，通常用于表示函数调用（Call Expression）或其他操作的参数。参数是传递给函数、方法或操作的值或表达式；
+
+
+#### types
+
+@babel/types 是 Babel 工具链中的一个核心模块，用于创建、操作和检查抽象语法树（AST）节点
+
+
+### types 的能力
+
+<ol>
+<li>创建节点（Node Creation），生成一些基本的类型：
+<ol>
+<li>t.identifier("c")，声明一个变量 c；</li>
+<li>t.stringLiteral("hahaha")，生成一个直接量字符串"hahaha"；</li>
+<li>types.numericLiteral(10)，直接量数值 10；</li>
+</ol>
+</li>
+
+<li>节点检查和比较（Node Checking and Comparison）：
+<ol>
+<li>使用 t.isIdentifier(node) 来检查节点是否为标识符；</li>
+<li>使用 t.isFunctionDeclaration(node) 来检查节点是否为函数声明；</li>
+<li>t.isArrayExpression 方法，用于检查给定的 AST 节点是否为数组表达式（Array Expression）。数组表达式通常表示 JavaScript 中的数组字面量；</li>
+</ol>
+</li>
+
+<li>节点操作和修改（Node Manipulation and Modification）
+<ol>
+<li>你可以使用 t.cloneNode(node) 复制节点；</li>
+<li>使用 t.removeComments(node) 删除注释；</li>
+<li>使用 t.isAssignmentExpression(node) 检查是否为赋值表达式等。</li>
+</ol>
+</li>
+
+</ol>
+
+
+```javascript
+const t = require('@babel/types');
+
+// 函数节点
+const identifier = t.identifier('myVariable');
+const stringLiteral = t.stringLiteral('Hello, world!');
+const functionDeclaration = t.functionDeclaration(
+  t.identifier('myFunction'),
+  [],
+  t.blockStatement([]),
+);
+
+// 检测变量的声明类型
+
+// 创建一个 let 变量声明节点
+const letVariableDeclaration = t.variableDeclaration('let', [
+  t.variableDeclarator(t.identifier('myVariable'), null),
+]);
+
+// 类型检查
+const node = t.identifier('myVariable');
+console.log(t.isIdentifier(node)); // true
+console.log(t.isFunctionDeclaration(node)); // false
+
+// 节点update
+const node2 = t.identifier('myVariable');
+const clonedNode = t.cloneNode(node2);
+const modifiedNode = t.updateIdentifier(node2, 'newVariableName');
+
+// 检查节点是否为 VariableDeclaration
+if (t.isVariableDeclaration(letVariableDeclaration)) {
+  // 进一步检查是否为 let 变量声明
+  if (letVariableDeclaration.kind === 'let') {
+    console.log('This is a let variable declaration.');
+  } else {
+    console.log('This is not a let variable declaration.');
+  }
+} else {
+  console.log('This is not a variable declaration.');
+}
+
+// t.isArrayExpression
+// 创建一个数组表达式节点
+const arrayExpression = t.arrayExpression([
+  t.stringLiteral('item1'),
+  t.stringLiteral('item2'),
+  t.stringLiteral('item3'),
+]);
+
+// 检查节点是否为数组表达式
+if (t.isArrayExpression(arrayExpression)) {
+  console.log('This is an array expression.');
+} else {
+  console.log('This is not an array expression.');
+}
+
+// t.react.isCompatTag
+const tagName = 'div';
+
+if (t.react.isCompatTag(tagName)) {
+  console.log(`${tagName} is a valid React tag.`);
+} else {
+  console.log(`${tagName} is not a valid React tag.`);
+}
+
+
+```
+
+
+
+
+
+#### traverse
+
+可以对 ast 数据进行遍历和修改。参照 ast 的 json 结构进行遍历修改，类似 dom 树的修改，增删改查操作都很方便。
+
+
+#### generate
+
+
+
 
 
 ### 核心库 @babel/core
