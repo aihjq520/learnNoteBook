@@ -120,3 +120,96 @@ new webpack.DefinePlugin({
 此插件用于在单独的 webpack 配置中创建一个 dll-only-bundle。 此插件会生成一个名为 manifest.json 的文件，这个文件是用于让 DllReferencePlugin 能够映射到相应的依赖上。
 
 https://www.cnblogs.com/skychx/p/webpack-dllplugin.html (webpack4不再适用)
+
+原理：
+
+1. 产出物[name].dll.js 最终导出的是一个webpack__require函数
+2. 在bundle.js中在请求dll打包后的产出物
+
+```javascript
+
+var __webpack_modules__ = {
+    // 模块B
+    "./node_modules/isarray/index.js": (
+      module,
+      __unused_webpack_exports,
+      __webpack_require__
+    ) => {
+
+      // 加载模块<dll-reference _dll_utils>
+      module.exports = __webpack_require__("dll-reference _dll_utils")(
+        "./node_modules/isarray/index.js"
+      );
+    },
+
+    "dll-reference _dll_utils": (module) => {
+      "use strict";
+      module.exports = _dll_utils;
+    },
+  };
+
+```
+
+所以当页面中去使用isArray时，去使用dll_utils导出的webpack__require函数去引入isArray
+
+
+https://juejin.cn/post/7043653757053173797
+
+
+
+难点1： 如何将dll的产物附加到index.prod.html上?
+
+
+
+
+
+### ProviderPlugin
+
+假设你有一个 main.js 文件，代码如下：
+
+```javascript
+console.log(window.Quill);
+```
+
+
+使用 ProvidePlugin 插件后，Webpack 会将其转换为：
+
+
+```javascript
+var window = window || {};
+window.Quill = require('quill');
+console.log(window.Quill);
+```
+
+配置项
+
+```javascript
+const webpack = require('webpack');
+          
+module.exports = {
+  chainWebpack: config => {
+    // 使用 ProvidePlugin 插件
+    config.plugin("provide").use(webpack.ProvidePlugin, [
+      {
+        "window.Quill": "quill",
+      },
+    ]);
+  }
+};
+```
+
+- config.plugin("provide")：在 Webpack 配置中定义一个名为 provide 的插件。
+- .use(webpack.ProvidePlugin, [...])：使用 webpack.ProvidePlugin 插件，并传递配置选项。
+- [{ "window.Quill": "quill" }]：配置选项表示，当在代码中遇到 window.Quill 时，自动将其替换为 require('quill')。
+
+
+需要特别注意在ts环境下， 用providerplugin 一般都会报 “cannot find name xxx” 这种错误
+需要在全局声明文件中定义
+
+```typescript
+declare module xxx {
+
+}
+```
+
+https://segmentfault.com/a/1190000022509809
