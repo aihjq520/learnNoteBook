@@ -134,10 +134,23 @@ arr.splice(2,1,2)
     console.log(weakmap);
   </script>
 </body>
-
 </html>
 
 ```
+
+Map 相对于 WeakMap ：
+
+<ul>
+<li>
+Map 的键可以是任意类型，WeakMap 只接受对象作为键（null除外），不接受其他类型的值作为键
+</li>
+<li>
+Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键； WeakMap 的键是弱引用，键所指向的对象可以被垃圾回收，此时键是无效的
+</li>
+<li>
+Map 可以被遍历， WeakMap 不能被遍历
+</li>
+</ul>
 
 
 当该函数表达式执行完毕后，对于对象 foo 来说，它仍然作为 map的 key 被引用着，因此垃圾回收器（grabage collector）不会把它从内存中移除，我们仍然可以通过 map.keys 打印出对象 foo。然而对于对象 bar来说，由于WeakMap的 key是弱引用，它不影响垃圾回收器的工作，所以一旦表达式执行完毕，垃圾回收器就会把对象 bar从内存中移除，并且我们无法获取 WeakMap的 key值，也就无法通过 WeakMap取得对象 bar。
