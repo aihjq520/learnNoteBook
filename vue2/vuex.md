@@ -1,3 +1,10 @@
+# 原理
+
+1.  Vue.use(Vuex)
+  
+vuex这定义的install方法一步主要实现了
+
+
 # 模块
 - 1. state,getter,mutation,action,dispatch,commit
 - 2. mapgetter, mapState
@@ -41,6 +48,11 @@ mutations: {
   }
 }
 ```
+
+# persistedstate
+
+无论是vue的vuex，pinia 还是react的 redux, recoil的状态管理库，在web页面刷新后数据都会丢失，在某些情况下我们需要进行持久化处理，
+有一种方式是手动调用api，localStorage/sessionStorage处理，但这种只适用一些简单的情况。 还有的就是使用persistedstate。
 
 
 

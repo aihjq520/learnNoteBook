@@ -43,3 +43,19 @@ overflow: hidden;
 </style>
 <p 这是一些文本这是一些文本这是一些文本这是一些文本这是一些文本这是一些文本这是一些文本这是一些文本这是一些文本这是一些文本</p >
 ```
+
+### 换行问题
+
+主要的两个属性是word-break和word-wrap
+
+使用word-break: word-break会使超出宽度的文本新起一行换行。
+
+
+### 如何给非input元素，例如 div span元素添加blur事件？
+
+给dom元素添加tabIndex属性, 需要**注意**的是click事件会失效，要替换成mousedown事件
+
+### flex是哪三个属性的缩写？
+
+flex-grow、flex-shrink、flex-basis （搞耍b）
+
