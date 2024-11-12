@@ -108,9 +108,88 @@ class MyPromise{
 }
 ```
 
+
+
 # 问题：
 
 1. 如何获取多个promiseh获取结果？ 其中有一个promise报错怎么处理？
 
 可以用promise.all，坏处是其中有一个报错的话那么其他成功的promise结果就不会返回，解决方案可以换成promise.alllSettled。
 另外也可以对promose数组里面的一promise.catch处理，使其报错不影响返回。
+
+class Promise {
+    status = 'pending'
+    value = ''
+    successCallback = []
+    failCallback = []
+
+    constrcutor(exectuor) {
+        try {
+        exectuor(this.resolve.bind(this), this.reject.bind(this))
+        } catch(e) {
+            this.reject(e)
+        }
+    }
+
+    then(success, fail) {
+
+        
+        if (typeof success != 'function') {
+    
+            success = value => value
+        }
+​
+        if (typeof fail != 'function') {
+            fail = reason => reason
+        }
+
+        if(this.status === 'fulfilled') {
+            setTimeout(()=>{
+                success(this.value)
+            })
+        }
+
+        if(this.status === 'rejected') {
+            setTimeout(()=>{
+                fail(this.value)
+            })
+        }
+
+        if(this.status === 'pending') {
+            this.successCallback.push(success)
+            this.failCallback.push(fail)
+        }
+
+        const promise = new MyPromise((resolv,reject)=>{
+
+        })
+
+
+
+
+        try {
+
+        } cath (e) {
+
+        }
+
+
+        return promise
+    }
+
+    resolve(value) {
+        if(this.staus === 'pending') {
+            this.value = value
+            this.status = 'fulfiled'
+            this.successCallback.forEach(item=>item(value))
+        }
+    }
+
+    reject() {
+        if(this.staus === 'pending') {
+            this.value = value
+            this.status = 'rejected'
+            this.failCallback.forEach(item=>item(value))
+        }
+    }
+}
