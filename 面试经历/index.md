@@ -251,6 +251,16 @@ box-shadow 不在盒子模型，需要注意预留位置
 - react 常用的 hook
 
 ### K 公司
+   *
+  * *
+ * * *
+
+for(let i = 1; i<n; i++) {
+  for(let j = i; j<=n;j++ ) {
+    console.log(" ")
+  }
+  
+} 
 
 侧重项目比较多。
 
