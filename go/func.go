@@ -13,7 +13,9 @@ func sum(val ...int) int {
 	}
 	return total
 }
-
+func func1() {
+	fmt.Println("defer")
+}
 /*
 func flush(x, y int) (int, int) {
 	a = x+2
@@ -28,7 +30,9 @@ func main () {
 	fmt.Println(flush(2,3))
 
 	fmt.Println(sum(1))
+	defer func1()
 
 	fmt.Println(sum(1,2,3))
+
 	
 }
