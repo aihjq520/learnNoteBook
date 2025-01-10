@@ -94,7 +94,7 @@ Js 基础，一时忘记了 every, some 返回布尔值，以及 splice 传负�
 - sessionstorage、localstorage 的区别？
 - 谈一谈你对闭包的理解？
 
-  2.前端小组长面
+2.前端小组长面
 
 - 跨域的解决方法? 发送的请求会不会到服务端？
 - 怎么打开一个页面？
@@ -251,6 +251,16 @@ box-shadow 不在盒子模型，需要注意预留位置
 - react 常用的 hook
 
 ### K 公司
+   *
+  * *
+ * * *
+
+for(let i = 1; i<n; i++) {
+  for(let j = i; j<=n;j++ ) {
+    console.log(" ")
+  }
+  
+} 
 
 侧重项目比较多。
 

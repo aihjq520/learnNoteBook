@@ -102,7 +102,12 @@ module.exports = {
 
 ### 4.DllPlugin/DllReferencePlugin
 
-https://www.cnblogs.com/skychx/p/webpack-dllplugin.html (webpack4不再适用)
+https://www.cnblogs.com/skychx/p/webpack-dllplugin.html 
+
+
+### gzipPlugin
+
+服务端配置gzip压缩后可大大缩减资源大小。
 
 ### 5.HardSourceWebpackPlugin
 

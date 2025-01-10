@@ -55,7 +55,7 @@ class MyPromise{
     reject(val){
         if(this.status!=='pending')return
         this.status = 'reject'
-        this.rejectedList.shift()(this.result)
+        this.rejectedList.shift()(val)
         this.result = val
     }
 
