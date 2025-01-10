@@ -1,7 +1,7 @@
 ## example
 
 ```
-stage:
+stage:  
   - build
   - image
   - deploy
