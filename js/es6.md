@@ -228,3 +228,92 @@ test(1,2,3,4)
 剩余参数只包含那些没有对应形参的实参，而 arguments 对象包含了传给函数的所有实参。
 arguments对象不是一个真正的数组，而剩余参数是真正的 Array实例，也就是说你能够在它上面直接使用所有的数组方法，比如 sort，map，forEach或pop。
 arguments对象还有一些附加的属性 （如callee属性）。
+
+
+##  复杂对象排序（自定义排序）
+假设我们有一个包含学生信息的数组，需要按成绩排序，如果成绩相同则按名字排序：
+```js
+
+const students = [
+
+  { name: 'Alice', grade: 85 },
+
+
+  { name: 'Bob', grade: 92 },
+
+
+  { name: 'Charlie', grade: 85 },
+
+
+  { name: 'David', grade: 90 }
+
+
+];
+
+
+students.sort((a, b) => {
+
+
+  const gradeDiff = b.grade - a.grade; // 成绩从高到低排序
+
+
+  if (gradeDiff !== 0) return gradeDiff;
+
+
+  return a.name.localeCompare(b.name); // 成绩相同按名字排序
+
+
+});
+
+
+console.log(students);
+
+
+// [{ name: 'Bob', grade: 92 }, { name: 'David', grade: 90 }, { name: 'Alice', grade: 85 }, { name: 'Charlie', grade: 85 }]
+
+```
+
+更多案例： https://docs.pingcode.com/baike/2500346
+
+**注意：b的值是数组遍历到的当前值，a是数组遍历到的下一个值（即b的下一个）**
+
+sort()方法没有参数时，按照ascii码进行排序
+通过给sort()的参数返回一个负值可以实现数组reverse()效果
+sort(next,prev) 参数返回 next - prev时，数组是升序，返回-(next - prev) 即prev - next时，数组是降序
+
+##  最快获取二进制每一位的方法？
+
+
+```JS
+const a = 124
+const hex = a.toString(2)
+for(let i = 0; i < hex.length; i++) {
+  let  offset = hex.length - i
+  let t = (b >> offset) & 0b00000001
+  console.log(t)
+}
+```
+
+那如果我想取后四位呢？
+
+一样的是做 & 操作， 如果要去取后四位 那么就是 (n & 0b1111)， 取高四位那么就要位运算右移动4四位（前提是不超过256）
+
+## js把一个数字转成二进制
+
+```js
+parseInt('11', 2)
+```
+
+### 一个数子变成4位数字， 不够的补0
+
+```js
+
+const a = 1
+
+a.toString().padEnd(4, '0')
+
+// 0001
+
+```
+
+
