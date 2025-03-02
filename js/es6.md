@@ -163,3 +163,165 @@ Map 可以被遍历， WeakMap 不能被遍历
 总之，WeakMap的专用场合就是，它的键所对应的对象，可能会在将来消失。WeakMap结构有助于防止内存泄漏。
 
 注意，WeakMap 弱引用的只是键名，而不是键值。键值依然是正常引用。
+
+# Array sort方法
+
+在JavaScript中，sort()方法用于对数组元素进行排序。默认情况下，它将元素作为字符串进行排序，并按字母升序排列。这意味着数字可能不会按照预期的数值大小顺序进行排序，因为它们被转换成了字符串
+
+# ...args和arguments
+
+## ...args 展开运算符
+
+展开运算法在多个参数（函数调用）、多个元素（用于数组和字面量）和多个变量（用于解构赋值） 地方使用。剩余参数语法允许我们将一个不定数量的参数表示为一个数组
+
+```JS
+
+function sum(...args) {
+  // 因为...args 将函数内的所有剩余实参（这里是所有实参），转换成一个数组
+  // args --> [1, 2, 3]
+  return args.reduce((previous, current) => {
+    return previous + current;
+  });
+}
+
+console.log(sum(1, 2, 3));
+// expected output: 6
+
+console.log(sum(1, 2, 3, 4));
+// expected output: 10
+
+```
+
+如果函数的最后一个命名参数以 ... 为前缀，则它会将所有后面剩余的是实参个数包裹成一个数组。
+
+```JS
+
+// 例子
+
+function test(a, b, ...args) {
+  console.log(args)
+}
+
+test(1,2,3,4) // [3, 4]
+
+```
+
+
+## arguments对象
+
+在函数代码中，使用特殊对象 arguments，开发者无需明确指出参数名，就能访问它们。arguments对象并不是一个数组，是一个类数组对象，在调用时请注意。
+
+```JS
+
+function test(a, b, c) {
+  console.log(arguments) // Arguments(4) [1, 2, 3, 4, callee: ƒ, Symbol(Symbol.iterator): ƒ] 
+  console.log(test.length) // 3
+  console.log(arguments.callee.length) // 3
+}
+
+test(1,2,3,4)
+
+```
+
+## ...args剩余参数和 arguments对象的区别
+
+剩余参数只包含那些没有对应形参的实参，而 arguments 对象包含了传给函数的所有实参。
+arguments对象不是一个真正的数组，而剩余参数是真正的 Array实例，也就是说你能够在它上面直接使用所有的数组方法，比如 sort，map，forEach或pop。
+arguments对象还有一些附加的属性 （如callee属性）。
+
+
+##  复杂对象排序（自定义排序）
+假设我们有一个包含学生信息的数组，需要按成绩排序，如果成绩相同则按名字排序：
+```js
+
+const students = [
+
+  { name: 'Alice', grade: 85 },
+
+
+  { name: 'Bob', grade: 92 },
+
+
+  { name: 'Charlie', grade: 85 },
+
+
+  { name: 'David', grade: 90 }
+
+
+];
+
+
+students.sort((a, b) => {
+
+
+  const gradeDiff = b.grade - a.grade; // 成绩从高到低排序
+
+
+  if (gradeDiff !== 0) return gradeDiff;
+
+
+  return a.name.localeCompare(b.name); // 成绩相同按名字排序
+
+
+});
+
+
+console.log(students);
+
+
+// [{ name: 'Bob', grade: 92 }, { name: 'David', grade: 90 }, { name: 'Alice', grade: 85 }, { name: 'Charlie', grade: 85 }]
+
+```
+
+更多案例： https://docs.pingcode.com/baike/2500346
+
+**注意：b的值是数组遍历到的当前值，a是数组遍历到的下一个值（即b的下一个）**
+
+sort()方法没有参数时，按照ascii码进行排序
+通过给sort()的参数返回一个负值可以实现数组reverse()效果
+sort(next,prev) 参数返回 next - prev时，数组是升序，返回-(next - prev) 即prev - next时，数组是降序
+
+##  最快获取二进制每一位的方法？
+
+
+```JS
+const a = 124
+const hex = a.toString(2)
+for(let i = 0; i < hex.length; i++) {
+  let  offset = hex.length - i
+  let t = (b >> offset) & 0b00000001
+  console.log(t)
+}
+```
+
+那如果我想取后四位呢？
+
+一样的是做 & 操作， 如果要去取后四位 那么就是 (n & 0b1111)， 取高四位那么就要位运算右移动4四位（前提是不超过256）
+
+## js把一个数字转成二进制
+
+```js
+parseInt('11', 2)
+```
+
+### 一个数子变成4位数字， 不够的补0
+
+```js
+
+const a = 1
+
+a.toString().padEnd(4, '0')
+
+// 0001
+
+```
+
+
+### 二维，一维数组转换
+
+有M行N列的二维数组a[M][N]中，转换公式定义如下a[i*N+j] = a[i][j]，那三维数组a[M][N][P]换算为一维数组的关系公式是什么呢？
+答：三维数组维展a[M][N][P],下标为a[m][n][p]，则一维表达式为a[ (m*N+n)*P+p]
+
+理解：二维转一维时，第一个维度指向N个元素的数组首地址（i*N），第二个维度是自身（j）。
+三维转一维时，第一个维度指向N*P个元素的二维数组的首地址（m*N*P），第二维度指向P个元素的数组首地址（n*P），第三个维度是自身（p）。
+
